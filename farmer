@@ -1,0 +1,48 @@
+#include <DHT.h>
+#define DHTPIN A0
+#define DHTTYPE DHT11
+DHT dht(DHTPIN,DHTTYPE);
+int pin =A1;
+int builtin=13;
+int l=1;
+int val=0;
+int pirpin=12;
+void setup() {
+pinMode(pirpin,OUTPUT); 
+pinMode(pin,OUTPUT);
+Serial.begin(9600);
+Serial.println("Temp& Humidity sensor");
+Serial.println("moisture");
+Serial.println("pir sensor");
+}
+void loop() {
+if(l<5){
+digitalWrite(builtin,HIGH);
+delay(1000);
+digitalWrite(builtin,LOW);
+delay(1000);
+l=l+1;
+}
+float h = dht.readHumidity();
+float t = dht.readTemperature();
+Serial.print("Current Humidity: ");
+Serial.print(h);
+Serial.println("%");
+Serial.print("Temperature");
+float f=t*9/5+32;
+Serial.print(t);
+Serial.print("c");
+delay(1000);
+int m = analogRead(pin);
+Serial.println(m);
+delay(1000);
+val=digitalRead(pirpin);
+if(pirpin==HIGH)
+{
+Serial.println("motion detected");
+}
+else
+{
+Serial.println("motion finished");
+}
+}
